@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MamahPaham Cards – Media Edukasi Interaktif Kehamilan</title>
+    <meta name="description" content="Media Edukasi Interaktif Kehamilan Berbasis Kartu Mitos-Fakta, Quiz, dan QR Video. Belajar kehamilan jadi lebih mudah, interaktif, dan menyenangkan.">
+    
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="MamahPaham Cards – Media Edukasi Interaktif Kehamilan">
+    <meta property="og:description" content="Belajar Kehamilan Jadi Lebih Mudah, Interaktif, dan Menyenangkan bersama MamahPaham Cards.">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pastel-blue': '#C9E7F8',
+                        'pastel-pink': '#F8D9E8',
+                        'peach-orange': '#F8C9A5',
+                        'pale-mint': '#E9F5EC',
+                        'dark-blue': '#243D63',
+                        'lavender': '#E8DDF7',
+                        'soft-bg': '#FFFBF9',
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'script': ['"Sacramento"', 'cursive'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -5px rgba(232, 221, 247, 0.5)',
+                        'glow': '0 0 25px rgba(248, 217, 232, 0.8)',
+                        'card': '0 15px 35px rgba(36, 61, 99, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styling & Decorative Utilities */
+        body {
+            background-color: #FFFBF9;
+            color: #243D63;
+            overflow-x: hidden;
+        }
+
+        .bg-mesh-gradient {
+            background: radial-gradient(circle at 10% 20%, #F8D9E8 0%, rgba(255,255,255,0) 40%),
+                        radial-gradient(circle at 90% 10%, #C9E7F8 0%, rgba(255,255,255,0) 40%),
+                        radial-gradient(circle at 50% 80%, #E8DDF7 0%, rgba(255,255,255,0) 50%),
+                        radial-gradient(circle at 80% 80%, #F8C9A5 0%, rgba(255,255,255,0) 30%);
+            background-color: #FFFBF9;
+        }
+
+        .card-flip-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Keyframe Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .animate-float-slow {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: floatSlow 6s ease-in-out 2s infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFFBF9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F8D9E8;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E8DDF7;
+        }
+
+        /* Intersection Observer Animation Helpers */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-float-slow, .animate-float-delayed, .animate-pulse-glow {
+                animation: none !important;
+            }
+            .reveal {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-pastel-pink selection:text-dark-blue">
+
+    <!-- BACKGROUND FLOATING ORNAMENTS -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <svg class="absolute top-10 left-5 text-pastel-pink opacity-40 w-16 h-16 animate-float-slow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <svg class="absolute top-1/3 right-8 text-lavender opacity-50 w-20 h-20 animate-float-delayed" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <svg class="absolute bottom-1/4 left-12 text-peach-orange opacity-40 w-14 h-14 animate-float-slow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+    </div>
+
+    <!-- NAVBAR -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/70 backdrop-blur-md border-b border-white/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#beranda" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-pastel-pink to-lavender flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-[#ffffff] fa-baby-carriage text-white text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-playfair font-bold text-xl text-dark-blue tracking-tight">MamahPaham<span class="text-pink-400 font-script text-2xl ml-1">Cards</span></span>
+                        <span class="text-[10px] text-dark-blue/60 tracking-wider uppercase font-semibold">Media Edukasi Kehamilan</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-dark-blue/80">
+                    <a href="#beranda" class="hover:text-pink-500 transition-colors">Beranda</a>
+                    <a href="#tentang" class="hover:text-pink-500 transition-colors">Tentang</a>
+                    <a href="#fitur" class="hover:text-pink-500 transition-colors">Fitur</a>
+                    <a href="#interactive-app" class="px-2.5 py-1 rounded-full bg-lavender/50 text-dark-blue font-semibold hover:bg-lavender transition-all"><i class="fa-solid fa-[#ffffff] fa-sparkles text-amber-400 mr-1"></i> Interactive App</a>
+                    <a href="#paket" class="hover:text-pink-500 transition-colors">Paket</a>
+                    <a href="#edukasi" class="hover:text-pink-500 transition-colors">Edukasi</a>
+                    <a href="#kontak" class="hover:text-pink-500 transition-colors">Kontak</a>
+                </nav>
+
+                <!-- Desktop CTA -->
+                <div class="hidden md:flex items-center">
+                    <a href="#fitur" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-pastel-pink via-lavender to-pastel-blue text-dark-blue font-semibold text-sm shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
+                        Kenali Produk
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" type="button" aria-label="Buka Menu Navigasi" class="p-2 rounded-lg text-dark-blue hover:bg-pastel-pink/30 focus:outline-none">
+                        <i class="fa-solid fa-[#ffffff] fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-b border-pastel-pink/40 px-4 pt-2 pb-6 space-y-3">
+            <a href="#beranda" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Beranda</a>
+            <a href="#tentang" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Tentang</a>
+            <a href="#fitur" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Fitur</a>
+            <a href="#interactive-app" class="mobile-link block px-3 py-2 rounded-md font-semibold text-dark-blue bg-lavender/40"><i class="fa-solid fa-[#ffffff] fa-sparkles text-amber-500 mr-1.5"></i> Interaktif Flashcard & Quiz</a>
+            <a href="#paket" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Paket Belajar</a>
+            <a href="#edukasi" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Materi Edukasi</a>
+            <a href="#kontak" class="mobile-link block px-3 py-2 rounded-md font-medium text-dark-blue hover:bg-pastel-pink/20">Kontak</a>
+            <a href="#interactive-app" class="mobile-link block w-full text-center px-4 py-3 rounded-full bg-gradient-to-r from-pastel-pink to-pastel-blue text-dark-blue font-semibold shadow">
+                Coba Simulasi Kartu
+            </a>
+        </div>
+    </header>
+
+    <main class="relative z-10 pt-20">
+
+        <!-- HERO SECTION -->
+        <section id="beranda" class="min-h-[90vh] flex items-center bg-mesh-gradient py-12 lg:py-20 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Text Content -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-pastel-pink/60 shadow-sm text-xs font-semibold text-dark-blue uppercase tracking-wider">
+                            <span class="flex h-2 w-2 rounded-full bg-pink-400 animate-ping"></span>
+                            <i class="fa-solid fa-[#ffffff] fa-heart text-pink-400"></i> Media Edukasi Kehamilan Premium
+                        </div>
+
+                        <h1 class="font-playfair text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-dark-blue">
+                            Belajar Kehamilan Jadi Lebih <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">Easier, Interactive</span> & Menyenangkan.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-dark-blue/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                            Selamat datang di <strong>MamahPaham Cards</strong>! Media edukasi kehamilan modern yang mengajak Bunda dan Ayah belajar melalui kartu mitos-fakta, quiz edukasi interaktif, materi trimester terstruktur, dan pemindaian <strong>QR Code Video</strong>.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                            <a href="#interactive-app" class="w-full sm:w-auto px-8 py-4 rounded-full bg-dark-blue text-white font-semibold shadow-lg hover:bg-dark-blue/90 hover:scale-105 active:scale-95 transition-all text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-[#ffffff] fa-gamepad"></i> Coba Flashcard & Quiz Interaktif
+                            </a>
+                            <a href="#paket" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/80 border border-pastel-pink text-dark-blue font-semibold hover:bg-pastel-pink/30 hover:scale-105 transition-all text-center">
+                                Lihat Pilihan Paket
+                            </a>
+                        </div>
+
+                        <!-- Trust Badge -->
+                        <div class="pt-6 flex items-center justify-center lg:justify-start gap-6 text-xs text-dark-blue/70">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-[#ffffff] fa-circle-check text-emerald-500 text-base"></i>
+                                <span>Disusun Bersama Bidan & Pakar</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-[#ffffff] fa-qrcode text-purple-500 text-base"></i>
+                                <span>Terintegrasi Video Digital</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Mockup Hero -->
+                    <div class="lg:col-span-5 relative flex justify-center items-center reveal">
+                        <!-- Glow Background Effect -->
+                        <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-pastel-pink rounded-full filter blur-3xl opacity-60 animate-pulse-glow"></div>
+                        
+                        <!-- Floating Card Mockups Structure -->
+                        <div class="relative w-full max-w-md aspect-square flex items-center justify-center">
+                            
+                            <!-- Main Photo Frame -->
+                            <div class="relative z-10 w-4/5 h-4/5 rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform hover:rotate-1 transition-transform duration-500">
+                                <img src="https://images.unsplash.com/photo-1544126592-807ade215a0b?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Ibu hamil bahagia bersama MamahPaham Cards" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/600x600/F8D9E8/243D63?text=MamahPaham+Cards'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark-blue/40 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white text-xs bg-white/20 backdrop-blur-md p-3 rounded-xl border border-white/30">
+                                    <p class="font-bold">Masa Kehamilan Penuh Kasih</p>
+                                    <p class="text-[10px] text-white/90">Pendamping edukasi terbaik bunda & keluarga</p>
+                                </div>
+                            </div>
+
+                            <!-- Decorative Floating Cards Overlays -->
+                            <div class="absolute -top-4 -left-4 z-20 w-48 bg-white p-4 rounded-2xl shadow-xl border border-pastel-pink animate-float-slow transform -rotate-6">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 text-pink-600">MITOS vs FAKTA</span>
+                                    <i class="fa-solid fa-[#ffffff] fa-lightbulb text-amber-400 text-xs ml-auto"></i>
+                                </div>
+                                <p class="text-xs font-semibold text-dark-blue">Ibu hamil tidak boleh keramas?</p>
+                                <p class="text-[10px] text-emerald-600 font-bold mt-1">FAKTA: Mitos semata!</p>
+                            </div>
+
+                            <div class="absolute -bottom-6 -right-2 z-20 w-52 bg-white p-4 rounded-2xl shadow-xl border border-pastel-blue animate-float-delayed transform rotate-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] font-bold text-purple-600 uppercase">Trimester 2</span>
+                                    <i class="fa-solid fa-[#ffffff] fa-qrcode text-dark-blue text-lg"></i>
+                                </div>
+                                <p class="text-xs font-bold text-dark-blue">Scan Video Edukasi</p>
+                                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-pastel-pink to-pastel-blue h-full w-3/4"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="tentang" class="py-20 bg-white relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-5 reveal">
+                        <div class="relative">
+                            <div class="w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-card border-8 border-pale-mint relative z-10">
+                                <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Edukasi Keluarga Kehamilan" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/600x750/E9F5EC/243D63?text=Edukasi+Kehamilan'">
+                            </div>
+                            <div class="absolute -bottom-6 -left-6 z-20 bg-gradient-to-br from-pastel-pink to-peach-orange p-6 rounded-2xl shadow-lg max-w-xs text-dark-blue">
+                                <span class="font-playfair text-3xl font-bold block mb-1">100%</span>
+                                <p class="text-xs font-semibold">Ramah Keluarga & Mudah Dipahami Calon Ayah & Ibu</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-6 reveal">
+                        <div class="inline-block px-3 py-1 rounded-full bg-pastel-pink/50 text-dark-blue text-xs font-bold">
+                            TENTANG MAMAHPAHAM CARDS
+                        </div>
+                        <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue leading-snug">
+                            Kenalan dengan Media Edukasi Kehamilan Masa Kini
+                        </h2>
+                        <p class="text-dark-blue/80 leading-relaxed text-base">
+                            <strong>MamahPaham Cards</strong> adalah <i>card game</i> edukasi kehamilan interaktif yang memadukan media fisik berupa kartu mitos & fakta, quiz pengetahuan kesehatan, rangkuman informasi per trimester, dan akses langsung ke <strong>QR Video Edukasi Digital</strong>.
+                        </p>
+                        <p class="text-dark-blue/80 leading-relaxed text-base">
+                            Dikembangkan khusus untuk membantu ibu hamil dan keluarga memahami masa kehamilan tanpa rasa cemas berlebihan. Informasi dirancang terstruktur agar Bunda dan Ayah dapat belajar bersama dengan santai namun tetap akurat secara medis.
+                        </p>
+
+                        <!-- Highlights -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                            <div class="p-4 rounded-2xl bg-soft-bg border border-pastel-blue/60 flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-full bg-pastel-blue flex items-center justify-center shrink-0 text-dark-blue">
+                                    <i class="fa-solid fa-[#ffffff] fa-book-open"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark-blue text-sm">Media Fisik & Digital</h3>
+                                    <p class="text-xs text-dark-blue/70">Perpaduan sentuhan kartu fisik & kemudahan video QR.</p>
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-soft-bg border border-pastel-pink/60 flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-full bg-pastel-pink flex items-center justify-center shrink-0 text-dark-blue">
+                                    <i class="fa-solid fa-[#ffffff] fa-users-between-lines"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark-blue text-sm">Bonding Suami Istri</h3>
+                                    <p class="text-xs text-dark-blue/70">Sarana diskusi seru untuk calon papa & mama.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE SECTION -->
+        <section id="fitur" class="py-20 bg-gradient-to-b from-white via-soft-bg to-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-lavender text-dark-blue text-xs font-bold tracking-wider uppercase">Fitur Unggulan</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Belajar Kehamilan dengan Cara yang Lebih Seru
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2">Empat pengalaman edukasi esensial yang dikemas dalam satu media inovatif.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="p-8 rounded-3xl bg-pastel-pink/30 border border-pastel-pink/60 hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl reveal">
+                        <div class="w-14 h-14 rounded-2xl bg-pastel-pink flex items-center justify-center text-dark-blue text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-[#ffffff] fa-comments"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl font-bold text-dark-blue mb-3">Kartu Mitos & Fakta</h3>
+                        <p class="text-sm text-dark-blue/80 leading-relaxed">
+                            Membantu pengguna mengenali informasi seputar kehamilan dan membedakan mana fakta medis dan mitos turun-temurun.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 2 -->
+                    <div class="p-8 rounded-3xl bg-pastel-blue/30 border border-pastel-blue/60 hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl reveal">
+                        <div class="w-14 h-14 rounded-2xl bg-pastel-blue flex items-center justify-center text-dark-blue text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-[#ffffff] fa-brain"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl font-bold text-dark-blue mb-3">Quiz Edukasi</h3>
+                        <p class="text-sm text-dark-blue/80 leading-relaxed">
+                            Memberikan pertanyaan interaktif singkat agar Bunda dan Ayah dapat menguji serta memperdalam pemahaman materi.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div class="p-8 rounded-3xl bg-peach-orange/30 border border-peach-orange/60 hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl reveal">
+                        <div class="w-14 h-14 rounded-2xl bg-peach-orange flex items-center justify-center text-dark-blue text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-[#ffffff] fa-calendar-check"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl font-bold text-dark-blue mb-3">Info Trimester</h3>
+                        <p class="text-sm text-dark-blue/80 leading-relaxed">
+                            Menyediakan materi kesehatan yang disusun secara sistematis berdasarkan fase kehamilan: Trimester 1, 2, dan 3.
+                        </p>
+                    </div>
+
+                    <!-- Feature Card 4 -->
+                    <div class="p-8 rounded-3xl bg-lavender/40 border border-lavender hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl reveal">
+                        <div class="w-14 h-14 rounded-2xl bg-lavender flex items-center justify-center text-dark-blue text-2xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-[#ffffff] fa-qrcode"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl font-bold text-dark-blue mb-3">QR Video Edukasi</h3>
+                        <p class="text-sm text-dark-blue/80 leading-relaxed">
+                            Menghubungkan kartu fisik langsung dengan video penjelasan multimedia yang dapat diakses instan melalui HP.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-pale-mint text-dark-blue text-xs font-bold tracking-wider uppercase">Langkah Mudah</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Mulai Belajar dalam 5 Langkah Praktis
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-soft-bg border border-pastel-pink/40 reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pastel-pink to-lavender flex items-center justify-center font-bold text-dark-blue text-lg mb-4 shadow">1</div>
+                        <h3 class="font-bold text-dark-blue text-sm mb-2">Pilih Kartu</h3>
+                        <p class="text-xs text-dark-blue/70">Pilih topik atau tahap trimester yang ingin dipelajari hari ini.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-soft-bg border border-pastel-blue/40 reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pastel-blue to-pale-mint flex items-center justify-center font-bold text-dark-blue text-lg mb-4 shadow">2</div>
+                        <h3 class="font-bold text-dark-blue text-sm mb-2">Baca Mitos-Fakta</h3>
+                        <p class="text-xs text-dark-blue/70">Tebak dan amati pernyataan di bagian depan kartu.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-soft-bg border border-peach-orange/40 reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-peach-orange to-pastel-pink flex items-center justify-center font-bold text-dark-blue text-lg mb-4 shadow">3</div>
+                        <h3 class="font-bold text-dark-blue text-sm mb-2">Pelajari Informasi</h3>
+                        <p class="text-xs text-dark-blue/70">Simak penjelasan medis ringkas dan ramah di balik kartu.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-soft-bg border border-lavender/60 reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-lavender to-pastel-blue flex items-center justify-center font-bold text-dark-blue text-lg mb-4 shadow">4</div>
+                        <h3 class="font-bold text-dark-blue text-sm mb-2">Jawab Quiz</h3>
+                        <p class="text-xs text-dark-blue/70">Uji ingatan bersama pasangan melalui mini quiz interaktif.</p>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-soft-bg border border-pale-mint/60 reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pale-mint to-pastel-pink flex items-center justify-center font-bold text-dark-blue text-lg mb-4 shadow">5</div>
+                        <h3 class="font-bold text-dark-blue text-sm mb-2">Scan QR Code</h3>
+                        <p class="text-xs text-dark-blue/70">Pindai kode QR untuk menonton penjelasan video pendukung.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE APP SECTION (FLASHCARD, QUIZ, TRIMEster TABS & LOCALSTORAGE) -->
+        <section id="interactive-app" class="py-20 bg-gradient-to-br from-lavender/30 via-white to-pastel-pink/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-dark-blue text-white text-xs font-bold tracking-wider uppercase">
+                        <i class="fa-solid fa-[#ffffff] fa-wand-magic-sparkles mr-1 text-pink-300"></i> Interactive App Simulator
+                    </span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Coba & Rasakan Pengalaman MamahPaham Cards
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2 text-sm">
+                        Simulasi langsung media edukasi kami. Progress dan bookmark jawaban kamu tersimpan otomatis di perangkat!
+                    </p>
+                </div>
+
+                <!-- Tab Switcher -->
+                <div class="flex justify-center mb-10 reveal">
+                    <div class="inline-flex p-1.5 rounded-2xl bg-white shadow-md border border-pastel-pink/50">
+                        <button id="tab-btn-flashcards" onclick="switchAppTab('flashcards')" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-blue text-white shadow">
+                            <i class="fa-solid fa-[#ffffff] fa-[#ffffff] fa-clone mr-2"></i> Flashcard Mitos-Fakta
+                        </button>
+                        <button id="tab-btn-quiz" onclick="switchAppTab('quiz')" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-dark-blue hover:bg-pastel-pink/30">
+                            <i class="fa-solid fa-[#ffffff] fa-[#ffffff] fa-circle-question mr-2"></i> Mini Quiz Kehamilan
+                        </button>
+                        <button id="tab-btn-bookmarks" onclick="switchAppTab('bookmarks')" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-dark-blue hover:bg-pastel-pink/30">
+                            <i class="fa-solid fa-[#ffffff] fa-bookmark mr-2"></i> Kartu Favorit Saya (<span id="bookmark-count">0</span>)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 1: FLASHCARDS INTERACTIVE -->
+                <div id="tab-content-flashcards" class="max-w-xl mx-auto reveal">
+                    <div class="mb-4 flex items-center justify-between text-xs font-semibold text-dark-blue">
+                        <span>Kartu ke <span id="current-card-idx">1</span> dari <span id="total-card-count">4</span></span>
+                        <span class="text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full" id="card-category-badge">Trimester 1</span>
+                    </div>
+
+                    <!-- Flip Card Container -->
+                    <div id="flashcard-element" class="relative w-full h-80 cursor-pointer group" onclick="toggleCardFlip()">
+                        <div id="card-inner" class="card-flip-inner w-full h-full relative rounded-3xl shadow-card border-2 border-white">
+                            
+                            <!-- Front of Card -->
+                            <div class="card-front absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-br from-white via-soft-bg to-pastel-pink/40 p-8 flex flex-col justify-between border border-pastel-pink/60">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold tracking-widest text-dark-blue/60 uppercase">Mitos atau Fakta?</span>
+                                    <button onclick="event.stopPropagation(); toggleBookmarkCurrentCard();" aria-label="Simpan Kartu ke Favorit" class="text-gray-400 hover:text-pink-500 transition-colors">
+                                        <i id="bookmark-icon" class="fa-regular fa-bookmark text-xl"></i>
+                                    </button>
+                                </div>
+                                <div class="text-center my-auto">
+                                    <h3 id="card-question" class="font-playfair text-xl sm:text-2xl font-bold text-dark-blue leading-snug">
+                                        "Makan daging setengah matang aman untuk ibu hamil karena kaya protein?"
+                                    </h3>
+                                </div>
+                                <div class="text-center text-xs text-dark-blue/60 italic font-medium">
+                                    <i class="fa-solid fa-[#ffffff] fa-hand-pointer animate-bounce mr-1"></i> Klik / Ketuk kartu untuk membalik & melihat fakta
+                                </div>
+                            </div>
+
+                            <!-- Back of Card -->
+                            <div class="card-back absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-br from-dark-blue to-slate-800 p-8 text-white flex flex-col justify-between">
+                                <div class="flex justify-between items-center">
+                                    <span id="card-status-badge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-red-500 text-white">MITOS</span>
+                                    <button onclick="event.stopPropagation(); playCardQRModal();" class="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full flex items-center gap-1 transition">
+                                        <i class="fa-solid fa-[#ffffff] fa-qrcode"></i> Scan Video
+                                    </button>
+                                </div>
+                                <div class="my-auto space-y-2">
+                                    <h4 class="font-playfair text-lg font-bold text-pastel-pink">Penjelasan Medis:</h4>
+                                    <p id="card-explanation" class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                        Daging setengah matang berisiko mengandung parasit Toxoplasma & bakteri Listeria yang berbahaya bagi janin. Daging harus dimasak hingga matang sempurna (well done).
+                                    </p>
+                                </div>
+                                <div class="text-center text-[10px] text-slate-400">
+                                    Klik kartu untuk kembali ke depan
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="flex items-center justify-between mt-6">
+                        <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white text-dark-blue font-semibold text-xs shadow hover:bg-pastel-pink/30 flex items-center gap-2">
+                            <i class="fa-solid fa-[#ffffff] fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <button onclick="nextCard()" class="px-5 py-2 rounded-xl bg-dark-blue text-white font-semibold text-xs shadow hover:bg-dark-blue/90 flex items-center gap-2">
+                            Selanjutnya <i class="fa-solid fa-[#ffffff] fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 2: MINI QUIZ -->
+                <div id="tab-content-quiz" class="hidden max-w-xl mx-auto">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-pastel-pink/50">
+                        <div class="flex justify-between items-center mb-6 border-b pb-4">
+                            <div>
+                                <h3 class="font-playfair font-bold text-lg text-dark-blue">Quiz Edukasi Kehamilan</h3>
+                                <p class="text-xs text-dark-blue/60">Soal <span id="quiz-num">1</span> dari <span id="quiz-total">3</span></p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-bold text-dark-blue/60">Skor Terakhir</span>
+                                <p id="high-score-display" class="text-lg font-bold text-pink-500">0 Poin</p>
+                            </div>
+                        </div>
+
+                        <div id="quiz-body">
+                            <p id="quiz-question-text" class="font-semibold text-dark-blue text-base sm:text-lg mb-6">
+                                Berapa konsumsi asam folat harian yang direkomendasikan untuk ibu hamil trimester 1?
+                            </p>
+
+                            <div id="quiz-options-container" class="space-y-3 mb-6">
+                                <!-- Options dynamically rendered -->
+                            </div>
+
+                            <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs font-semibold mb-4"></div>
+
+                            <button id="quiz-next-btn" onclick="submitQuizAnswer()" class="w-full py-3 rounded-xl bg-dark-blue text-white font-bold text-xs uppercase tracking-wider shadow">
+                                Konfirmasi Jawaban
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: BOOKMARKS -->
+                <div id="tab-content-bookmarks" class="hidden max-w-2xl mx-auto">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-pastel-pink/50">
+                        <h3 class="font-playfair font-bold text-xl text-dark-blue mb-4 flex items-center justify-between">
+                            <span>Kartu Favorit Disimpan</span>
+                            <button onclick="clearBookmarks()" class="text-xs font-sans text-red-500 underline">Hapus Semua</button>
+                        </h3>
+                        <div id="bookmarks-list" class="space-y-4">
+                            <!-- Rendered bookmarks -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PACKAGE SECTION -->
+        <section id="paket" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-peach-orange/40 text-dark-blue text-xs font-bold tracking-wider uppercase">Pilihan Produk</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Pilih Paket Belajar yang Sesuai
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2">Temukan paket edukasi kehamilan sesuai tahap perjalananmu.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <!-- Package 1: Trimester 1 -->
+                    <div class="rounded-3xl p-6 bg-gradient-to-b from-pastel-pink/20 to-white border border-pastel-pink/60 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-pastel-pink text-dark-blue text-[10px] font-extrabold uppercase tracking-wide">Awal Kehamilan</span>
+                            <h3 class="font-playfair text-2xl font-bold text-dark-blue mt-4">Trimester 1</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2">Materi khusus адапtasi awal, morning sickness, nutrisi pembentukan organ janin, & mitos awal kehamilan.</p>
+                            
+                            <ul class="mt-6 space-y-3 text-xs text-dark-blue/80">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-pink-500"></i> 30+ Kartu Mitos & Fakta T1</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-pink-500"></i> Mini Quiz Pemahaman</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-pink-500"></i> QR Link Video Edukasi</li>
+                                <li class="flex items-center gap-2"><li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-pink-500"></i> Buku PANDUAN RINGKAS</li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-slate-100">
+                            <!-- PLACEHOLDER CONTACT BUTTON -->
+                            <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards,%20saya%20ingin%20bertanya%20paket%20Trimester%201" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-full bg-pastel-pink text-dark-blue font-bold text-xs text-center hover:bg-pink-300 transition-colors">
+                                Tanyakan Paket
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Package 2: Trimester 2 -->
+                    <div class="rounded-3xl p-6 bg-gradient-to-b from-pastel-blue/20 to-white border border-pastel-blue/60 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-pastel-blue text-dark-blue text-[10px] font-extrabold uppercase tracking-wide">Masa Keemasan</span>
+                            <h3 class="font-playfair text-2xl font-bold text-dark-blue mt-4">Trimester 2</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2">Materi perkembangan organ, gerakan janin, persiapan screening USG, & kenyamanan tidur ibu.</p>
+                            
+                            <ul class="mt-6 space-y-3 text-xs text-dark-blue/80">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-blue-500"></i> 30+ Kartu Mitos & Fakta T2</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-blue-500"></i> Game Stimulasi Janin</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-blue-500"></i> QR Link Video Olahraga Hamil</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-blue-500"></i> Panduan Suami Siaga T2</li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-slate-100">
+                            <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards,%20saya%20ingin%20bertanya%20paket%20Trimester%202" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-full bg-pastel-blue text-dark-blue font-bold text-xs text-center hover:bg-blue-300 transition-colors">
+                                Tanyakan Paket
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Package 3: Trimester 3 -->
+                    <div class="rounded-3xl p-6 bg-gradient-to-b from-peach-orange/20 to-white border border-peach-orange/60 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between reveal">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-peach-orange text-dark-blue text-[10px] font-extrabold uppercase tracking-wide">Menjelang Persalinan</span>
+                            <h3 class="font-playfair text-2xl font-bold text-dark-blue mt-4">Trimester 3</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2">Persiapan persalinan, mengenali kontraksi asli vs palsu, manajemen nyeri, & persiapan ASI awal.</p>
+                            
+                            <ul class="mt-6 space-y-3 text-xs text-dark-blue/80">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-amber-500"></i> 35+ Kartu Mitos & Persalinan</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-amber-500"></i> Checklist Hospital Bag</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-amber-500"></i> QR Link Teknik Napas Lahiran</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-check text-amber-500"></i> Panduan Pendamping Lahiran</li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-slate-100">
+                            <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards,%20saya%20ingin%20bertanya%20paket%20Trimester%203" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-full bg-peach-orange text-dark-blue font-bold text-xs text-center hover:bg-amber-300 transition-colors">
+                                Tanyakan Paket
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Package 4: Complete Package -->
+                    <div class="relative rounded-3xl p-6 bg-gradient-to-b from-lavender/40 via-white to-pastel-pink/30 border-2 border-purple-300 shadow-xl flex flex-col justify-between reveal">
+                        <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow">
+                            COMPLETE HIGHLIGHT
+                        </div>
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-lavender text-dark-blue text-[10px] font-extrabold uppercase tracking-wide">Paling Lengkap</span>
+                            <h3 class="font-playfair text-2xl font-bold text-dark-blue mt-4">Complete Box</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2">Bundling seluruh seri Trimester 1, 2, & 3 lengkap dengan bonus eksklusif pendamping kehamilan.</p>
+                            
+                            <ul class="mt-6 space-y-3 text-xs text-dark-blue/80">
+                                <li class="flex items-center gap-2 font-bold"><i class="fa-solid fa-[#ffffff] fa-star text-purple-600"></i> Semua Kartu Trimester 1, 2 & 3</li>
+                                <li class="flex items-center gap-2 font-bold"><i class="fa-solid fa-[#ffffff] fa-star text-purple-600"></i> Akses Full Video Library QR</li>
+                                <li class="flex items-center gap-2 font-bold"><li class="flex items-center gap-2"><i class="fa-solid fa-[#ffffff] fa-star text-purple-600"></i> Pouch Cantik MamahPaham</li>
+                                <li class="flex items-center gap-2 font-bold"><i class="fa-solid fa-[#ffffff] fa-star text-purple-600"></i> Stiker Trimester Tracker</li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-purple-200">
+                            <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards,%20saya%20ingin%20bertanya%20paket%20Complete" target="_blank" rel="noopener noreferrer" class="block w-full py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-xs text-center shadow hover:opacity-90 transition-opacity">
+                                Tanyakan Paket Complete
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFITS SECTION -->
+        <section class="py-20 bg-soft-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue">
+                        Kenapa Memilih MamahPaham Cards?
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2 text-sm">Dirancang dengan empati tinggi untuk mendukung kehamilan yang tenang dan menyenangkan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Benefit 1 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-pastel-pink/40 flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-pastel-pink/50 flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Interaktif</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Pengguna tidak hanya membaca buku tebal yang membosankan, tetapi juga bermain quiz & diskusi.</p>
+                        </div>
+                    </div>
+                    <!-- Benefit 2 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-pastel-blue/40 flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-pastel-blue/50 flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Terstruktur</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Materi disesuaikan dengan tahapan usia kandungan bulan demi bulan dan trimester.</p>
+                        </div>
+                    </div>
+                    <!-- Benefit 3 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-lavender flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-lavender flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-mobile-screen-button"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Digital Terintegrasi</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Kartu dilengkapi QR Code yang mengarah ke penjelasan video visual yang praktis.</p>
+                        </div>
+                    </div>
+                    <!-- Benefit 4 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-peach-orange/40 flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-peach-orange/50 flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-heart-circle-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Family-Friendly</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Mudah dimainkan bersama suami atau anggota keluarga lainnya untuk membangun pemahaman bersama.</p>
+                        </div>
+                    </div>
+                    <!-- Benefit 5 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-pale-mint flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-pale-mint flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-sliders"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Fleksibel</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Tersedia pilihan paket per trimester sesuai kebutuhan perjalanan usia kandungan saat ini.</p>
+                        </div>
+                    </div>
+                    <!-- Benefit 6 -->
+                    <div class="p-6 bg-white rounded-2xl shadow-sm border border-pastel-pink/40 flex items-start gap-4 reveal">
+                        <div class="w-12 h-12 rounded-xl bg-pastel-pink/40 flex items-center justify-center shrink-0 text-dark-blue text-xl">
+                            <i class="fa-solid fa-[#ffffff] fa-user-doctor"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-dark-blue text-base">Terpercaya</h3>
+                            <p class="text-xs text-dark-blue/70 mt-1">Seluruh poin edukasi disusun berdasarkan referensi kesehatan maternal yang valid dan kredibel.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION SECTION -->
+        <section id="edukasi" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-pastel-blue text-dark-blue text-xs font-bold tracking-wider uppercase">Pusat Edukasi</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Belajar & Pahami Kehamilan
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2 text-sm">Temukan gambaran materi kehamilan yang disusun berdasarkan tahapan trimester.</p>
+                </div>
+
+                <!-- 3 Trimester Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="rounded-3xl overflow-hidden border border-slate-100 shadow-sm bg-soft-bg reveal">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80" alt="Trimester 1" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-pink-500 uppercase">Minggu 1 - 12</span>
+                            <h3 class="font-playfair text-xl font-bold text-dark-blue mt-1">Trimester Pertama</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2 leading-relaxed">Fase krusial pembentukan organ tubuh dasar janin serta adaptasi hormon Bunda.</p>
+                            <button onclick="alert('Materi Trimester 1 dapat diakses lengkap pada produk fisik MamahPaham Cards!')" class="mt-4 text-xs font-bold text-dark-blue underline hover:text-pink-500">Pelajari Ringkasan &rarr;</button>
+                        </div>
+                    </div>
+
+                    <div class="rounded-3xl overflow-hidden border border-slate-100 shadow-sm bg-soft-bg reveal">
+                        <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80" alt="Trimester 2" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-blue-500 uppercase">Minggu 13 - 27</span>
+                            <h3 class="font-playfair text-xl font-bold text-dark-blue mt-1">Trimester Kedua</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2 leading-relaxed">Fase keemasan kehamilan, janin mulai aktif bergerak, & energi Bunda kembali pulih.</p>
+                            <button onclick="alert('Materi Trimester 2 dapat diakses lengkap pada produk fisik MamahPaham Cards!')" class="mt-4 text-xs font-bold text-dark-blue underline hover:text-blue-500">Pelajari Ringkasan &rarr;</button>
+                        </div>
+                    </div>
+
+                    <div class="rounded-3xl overflow-hidden border border-slate-100 shadow-sm bg-soft-bg reveal">
+                        <img src="https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&w=600&q=80" alt="Trimester 3" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-amber-500 uppercase">Minggu 28 - 40</span>
+                            <h3 class="font-playfair text-xl font-bold text-dark-blue mt-1">Trimester Ketiga</h3>
+                            <p class="text-xs text-dark-blue/70 mt-2 leading-relaxed">Fase pematangan organ janin dan persiapan mental serta fisik menuju persalinan.</p>
+                            <button onclick="alert('Materi Trimester 3 dapat diakses lengkap pada produk fisik MamahPaham Cards!')" class="mt-4 text-xs font-bold text-dark-blue underline hover:text-amber-500">Pelajari Ringkasan &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Placeholder Section -->
+                <div class="rounded-3xl bg-gradient-to-r from-pastel-pink/30 via-lavender/30 to-pastel-blue/30 p-8 sm:p-12 border border-white shadow-lg reveal">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-6 space-y-4">
+                            <span class="px-3 py-1 rounded-full bg-white text-dark-blue text-xs font-bold shadow-sm">Demo QR Video</span>
+                            <h3 class="font-playfair text-2xl sm:text-3xl font-bold text-dark-blue">
+                                Contoh Pengalaman Menonton Video Edukasi QR
+                            </h3>
+                            <p class="text-xs sm:text-sm text-dark-blue/80 leading-relaxed">
+                                Setiap kartu MamahPaham dilengkapi kode QR unik yang dapat di-scan langsung menggunakan kamera smartphone tanpa perlu mengunduh aplikasi tambahan.
+                            </p>
+                            <button onclick="playCardQRModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-dark-blue text-white font-bold text-xs shadow hover:bg-dark-blue/90 transition">
+                                <i class="fa-solid fa-[#ffffff] fa-play"></i> Tonton Preview Video
+                            </button>
+                        </div>
+
+                        <!-- Video Thumbnail Placeholder -->
+                        <div class="lg:col-span-6">
+                            <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white group cursor-pointer" onclick="playCardQRModal()">
+                                <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80" alt="Video Thumbnail" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-dark-blue/30 flex items-center justify-center">
+                                    <div class="w-16 h-16 rounded-full bg-white/90 text-pink-500 flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-[#ffffff] fa-play text-2xl ml-1"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Healthcare Review Placeholder -->
+                <div class="mt-16 pt-12 border-t border-slate-100 reveal">
+                    <div class="text-center mb-8">
+                        <h4 class="font-playfair font-bold text-xl text-dark-blue">Ditinjau oleh Tenaga Kesehatan</h4>
+                        <p class="text-xs text-dark-blue/60 mt-1">Materi edukasi MamahPaham Cards dikembangkan dengan mengacu pada panduan medis terpercaya.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div class="p-6 rounded-2xl bg-soft-bg border border-pastel-pink/50 flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-full bg-pastel-pink flex items-center justify-center text-dark-blue font-bold text-xl shrink-0">
+                                <i class="fa-solid fa-[#ffffff] fa-user-nurse"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-dark-blue text-sm">Bidan Mitra & Konsultan</h5>
+                                <p class="text-xs text-dark-blue/70 italic mt-0.5">"Media edukasi berbentuk kartu sangat membantu pasien memahami kehamilan secara santai tanpa intimidasi istilah medis yang rumit."</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-soft-bg border border-pastel-blue/50 flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-full bg-pastel-blue flex items-center justify-center text-dark-blue font-bold text-xl shrink-0">
+                                <i class="fa-solid fa-[#ffffff] fa-user-doctor"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-dark-blue text-sm">Tim Penulis Edukasi Kesehatan</h5>
+                                <p class="text-xs text-dark-blue/70 italic mt-0.5">"Struktur per trimester mempermudah ibu hamil memilah informasi yang memang relevan dengan usia kandungannya."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="py-20 bg-mesh-gradient relative overflow-hidden">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal">
+                <div class="w-16 h-16 rounded-full bg-white mx-auto flex items-center justify-center shadow-md mb-6 text-pink-400 text-2xl">
+                    <i class="fa-solid fa-[#ffffff] fa-heart text-pink-400"></i>
+                </div>
+                <h2 class="font-playfair text-3xl sm:text-5xl font-bold text-dark-blue leading-tight">
+                    Yuk, Pahami Kehamilan Bersama MamahPaham Cards!
+                </h2>
+                <p class="text-dark-blue/80 text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed">
+                    Jadikan perjalanan kehamilan lebih tenang, berkesan, dan penuh kehangatan dengan media edukasi interaktif yang dipelajari bersama keluarga.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                    <a href="#kontak" class="w-full sm:w-auto px-8 py-4 rounded-full bg-dark-blue text-white font-bold text-sm shadow-xl hover:bg-dark-blue/90 hover:scale-105 transition-all">
+                        Hubungi Kami
+                    </a>
+                    <a href="#paket" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white border border-pastel-pink text-dark-blue font-bold text-sm shadow hover:bg-pastel-pink/30 hover:scale-105 transition-all">
+                        Lihat Pilihan Paket
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="kontak" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="px-4 py-1.5 rounded-full bg-lavender text-dark-blue text-xs font-bold tracking-wider uppercase">Kontak & Pemesanan</span>
+                    <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-dark-blue mt-3">
+                        Terhubung dengan MamahPaham Cards
+                    </h2>
+                    <p class="text-dark-blue/70 mt-2 text-sm">
+                        Ingin mengetahui lebih lanjut tentang paket, produk, atau informasi pemesanan? Hubungi kanal komunikasi kami.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- WhatsApp Contact Placeholder -->
+                    <!-- EDITABLE: Ganti href dengan nomor WhatsApp resmi Anda -->
+                    <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards,%20saya%20ingin%20bertanya%20informasi%20produk" target="_blank" rel="noopener noreferrer" class="p-6 rounded-3xl bg-emerald-50 border border-emerald-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-center reveal">
+                        <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto text-xl mb-4 shadow">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <h3 class="font-bold text-dark-blue text-base">WhatsApp Admin</h3>
+                        <p class="text-xs text-dark-blue/60 mt-1">Konsultasi Paket & Order</p>
+                        <span class="inline-block mt-4 text-xs font-bold text-emerald-600 underline">Chat Sekarang &rarr;</span>
+                    </a>
+
+                    <!-- Instagram Placeholder -->
+                    <!-- EDITABLE: Ganti href dengan link Instagram resmi Anda -->
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="p-6 rounded-3xl bg-pink-50 border border-pink-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-center reveal">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white flex items-center justify-center mx-auto text-xl mb-4 shadow">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <h3 class="font-bold text-dark-blue text-base">Instagram</h3>
+                        <p class="text-xs text-dark-blue/60 mt-1">@mamahpahamcards</p>
+                        <span class="inline-block mt-4 text-xs font-bold text-pink-600 underline">Kunjungi Profil &rarr;</span>
+                    </a>
+
+                    <!-- TikTok Placeholder -->
+                    <!-- EDITABLE: Ganti href dengan link TikTok resmi Anda -->
+                    <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="p-6 rounded-3xl bg-slate-50 border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-center reveal">
+                        <div class="w-12 h-12 rounded-full bg-dark-blue text-white flex items-center justify-center mx-auto text-xl mb-4 shadow">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </div>
+                        <h3 class="font-bold text-dark-blue text-base">TikTok Edukasi</h3>
+                        <p class="text-xs text-dark-blue/60 mt-1">Konten Tips Kehamilan</p>
+                        <span class="inline-block mt-4 text-xs font-bold text-dark-blue underline">Tonton Video &rarr;</span>
+                    </a>
+
+                    <!-- Marketplace Placeholder -->
+                    <!-- EDITABLE: Ganti href dengan link Toko Online / Shopee / Tokopedia Anda -->
+                    <a href="#kontak" onclick="alert('Link Marketplace Resmi MamahPaham Cards akan segera tersedia!')" class="p-6 rounded-3xl bg-amber-50 border border-amber-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all text-center reveal">
+                        <div class="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center mx-auto text-xl mb-4 shadow">
+                            <i class="fa-solid fa-[#ffffff] fa-store"></i>
+                        </div>
+                        <h3 class="font-bold text-dark-blue text-base">Official Store</h3>
+                        <p class="text-xs text-dark-blue/60 mt-1">Shopee / Tokopedia</p>
+                        <span class="inline-block mt-4 text-xs font-bold text-amber-600 underline">Lihat Toko &rarr;</span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-blue text-white pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-slate-700/60">
+                
+                <!-- Footer Brand -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pastel-pink to-lavender flex items-center justify-center shadow-md">
+                            <i class="fa-solid fa-[#ffffff] fa-baby-carriage text-dark-blue text-lg"></i>
+                        </div>
+                        <span class="font-playfair font-bold text-2xl text-white tracking-tight">MamahPaham<span class="text-pink-300 font-script text-2xl ml-1">Cards</span></span>
+                    </div>
+                    <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
+                        Belajar Kehamilan Jadi Lebih Mudah, Interaktif, dan Menyenangkan. Media pendamping kehamilan terbaik berbasis kartu fisik dan video QR digital.
+                    </p>
+                    <div class="flex items-center space-x-4 pt-2">
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 hover:bg-pastel-pink hover:text-dark-blue flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram text-sm"></i></a>
+                        <a href="https://tiktok.com" target="_blank" aria-label="TikTok" class="w-9 h-9 rounded-full bg-white/10 hover:bg-pastel-pink hover:text-dark-blue flex items-center justify-center transition-colors"><i class="fa-brands fa-tiktok text-sm"></i></a>
+                        <a href="https://wa.me" target="_blank" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-white/10 hover:bg-pastel-pink hover:text-dark-blue flex items-center justify-center transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- Footer Navigation -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="font-playfair font-bold text-base text-pastel-pink">Navigasi Halaman</h4>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li><a href="#beranda" class="hover:text-pastel-pink transition">Beranda Utama</a></li>
+                        <li><a href="#tentang" class="hover:text-pastel-pink transition">Tentang MamahPaham Cards</a></li>
+                        <li><a href="#fitur" class="hover:text-pastel-pink transition">Fitur Unggulan</a></li>
+                        <li><a href="#interactive-app" class="hover:text-pastel-pink transition">Interactive App Simulator</a></li>
+                        <li><a href="#paket" class="hover:text-pastel-pink transition">Pilihan Paket Belajar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info Summary -->
+                <div class="md:col-span-4 space-y-3">
+                    <h4 class="font-playfair font-bold text-base text-pastel-pink">Layanan Pelanggan</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Ada pertanyaan mengenai paket atau ingin bekerja sama sebagai fasilitas kesehatan/komunitas?
+                    </p>
+                    <div class="pt-2">
+                        <a href="https://wa.me/?text=Halo%20MamahPaham%20Cards" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pastel-pink text-dark-blue font-bold text-xs">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Chat Customer Care
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EDUCATIONAL & MEDICAL DISCLAIMER (MANDATORY) -->
+            <div class="mt-8 p-4 rounded-2xl bg-white/5 border border-white/10 text-[11px] text-slate-300 leading-relaxed">
+                <p class="font-bold text-pink-300 mb-1">
+                    <i class="fa-solid fa-[#ffffff] fa-triangle-exclamation mr-1"></i> Disclaimer Edukasi Kesehatan:
+                </p>
+                <p>
+                    MamahPaham Cards merupakan media pendamping edukasi kehamilan, bukan pengganti pemeriksaan Antenatal Care (ANC), konsultasi bidan atau dokter spesialis kandungan (Sp.OG), maupun alat diagnosis medis baku. Selalu konsultasikan kondisi kesehatan Anda dan janin secara rutin kepada tenaga kesehatan profesional.
+                </p>
+            </div>
+
+            <div class="mt-6 text-center text-xs text-slate-400">
+                <p>&copy; 2026 MamahPaham Cards. All Rights Reserved. Designed with care for mothers & families.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- VIDEO MODAL POPUP PLACEHOLDER -->
+    <div id="video-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 relative overflow-hidden shadow-2xl">
+            <button onclick="closeVideoModal()" aria-label="Tutup Video Modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 text-dark-blue flex items-center justify-center font-bold hover:bg-slate-200">
+                &times;
+            </button>
+            <h3 class="font-playfair font-bold text-xl text-dark-blue mb-4">Preview QR Video Edukasi</h3>
+            
+            <div class="aspect-video bg-slate-900 rounded-2xl overflow-hidden relative flex items-center justify-center">
+                <!-- Video Placeholder Container -->
+                <div class="text-center p-6 text-white space-y-3">
+                    <i class="fa-solid fa-[#ffffff] fa-circle-play text-5xl text-pastel-pink animate-pulse"></i>
+                    <p class="text-sm font-semibold">Video Edukasi QR Interactive Placeholder</p>
+                    <p class="text-xs text-slate-300 max-w-xs mx-auto">Video penjelasan medis lengkap berdurasi 2-3 menit dapat diputar saat kartu asli di-scan.</p>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-end">
+                <button onclick="closeVideoModal()" class="px-5 py-2 rounded-xl bg-dark-blue text-white text-xs font-bold">
+                    Tutup Preview
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* -------------------------------------------------------------
+           DATA FLASHCARDS & QUIZ
+        ------------------------------------------------------------- */
+        const flashcardsData = [
+            {
+                id: "fc1",
+                category: "Trimester 1",
+                question: "Makan daging setengah matang aman untuk ibu hamil karena kaya protein?",
+                isFact: false,
+                explanation: "MITOS. Daging setengah matang berisiko tinggi mengandung parasit Toxoplasma dan bakteri Listeria yang membahayakan tumbuh kembang janin."
+            },
+            {
+                id: "fc2",
+                category: "Trimester 1",
+                question: "Asam folat sangat penting dikonsumsi sejak sebelum hamil dan awal kehamilan?",
+                isFact: true,
+                explanation: "FAKTA. Asam folat terbukti mencegah cacat tabung saraf (Neural Tube Defects) seperti spina bifida pada janin secara signifikan."
+            },
+            {
+                id: "fc3",
+                category: "Trimester 2",
+                question: "Bunda hamil dilarang berolahraga sama sekali karena memicu keguguran?",
+                isFact: false,
+                explanation: "MITOS. Olahraga intensitas ringan-sedang seperti jalan kaki, senam hamil, dan prenatal yoga sangat disarankan untuk menjaga kebugaran tubuh."
+            },
+            {
+                id: "fc4",
+                category: "Trimester 3",
+                question: "Sensasi mulas palsu (Braxton Hicks) umum dialami memasuki minggu-minggu persalinan?",
+                isFact: true,
+                explanation: "FAKTA. Kontraksi palsu terjadi sebagai latihan alami rahim mempersiapkan persalinan, biasanya tidak teratur dan hilang saat beristirahat."
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "Berapa anjuran standar konsumsi asam folat harian bagi wanita hamil di awal kehamilan?",
+                options: ["100 mcg", "400 mcg", "1000 mcg", "2000 mcg"],
+                correct: 1,
+                explanation: "Dosis standar asam folat yang disarankan WHO & Kemenkes umumnya 400 mcg (0.4 mg) per hari."
+            },
+            {
+                question: "Manakah posisi tidur yang paling direkomendasikan pada trimester 2 dan 3 kehamilan?",
+                options: ["Tengkurap", "Telentang lurus", "Miring ke kiri", "Miring ke kanan terus menerus"],
+                correct: 2,
+                explanation: "Tidur miring ke kiri memaksimalkan aliran darah & nutrisi melalui vena cava inferior menuju plasenta janin."
+            },
+            {
+                question: "Tanda utama kontraksi asli persalinan yang membedakannya dari kontraksi palsu adalah...",
+                options: [
+                    "Terjadi secara makin teratur & makin makin sering",
+                    "Hilang saat minum air hangat",
+                    "Hanya terasa di perut bagian atas",
+                    "Tidak mengalami pembukaan serviks"
+                ],
+                correct: 0,
+                explanation: "Kontraksi asli persalinan memiliki durasi & interval yang makin teratur, makin kuat, dan tidak hilang saat berpindah posisi."
+            }
+        ];
+
+        /* -------------------------------------------------------------
+           STATE MANAGEMENT (LOCALSTORAGE INTEGRATION)
+        ------------------------------------------------------------- */
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+
+        let currentQuizIndex = 0;
+        let quizSelectedOption = null;
+        let quizScore = 0;
+
+        // LocalStorage keys
+        const STORAGE_BOOKMARKS_KEY = 'mamahpaham_bookmarks_v1';
+        const STORAGE_QUIZ_SCORE_KEY = 'mamahpaham_quiz_score_v1';
+
+        function getSavedBookmarks() {
+            try {
+                const data = localStorage.getItem(STORAGE_BOOKMARKS_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveBookmarks(bookmarksArray) {
+            try {
+                localStorage.setItem(STORAGE_BOOKMARKS_KEY, JSON.stringify(bookmarksArray));
+                updateBookmarkCountUI();
+            } catch (e) {
+                console.error("Local storage error:", e);
+            }
+        }
+
+        function getSavedQuizScore() {
+            return parseInt(localStorage.getItem(STORAGE_QUIZ_SCORE_KEY) || '0', 10);
+        }
+
+        function saveQuizScore(score) {
+            localStorage.setItem(STORAGE_QUIZ_SCORE_KEY, score.toString());
+            document.getElementById('high-score-display').textContent = score + " Poin";
+        }
+
+        /* -------------------------------------------------------------
+           FLASHCARD RENDER & LOGIC
+        ------------------------------------------------------------- */
+        function renderCard() {
+            const card = flashcardsData[currentCardIndex];
+            const cardInner = document.getElementById('card-inner');
+            
+            // Reset Flip State
+            cardInner.classList.remove('card-flipped');
+            isCardFlipped = false;
+
+            // Set Data
+            document.getElementById('current-card-idx').textContent = currentCardIndex + 1;
+            document.getElementById('total-card-count').textContent = flashcardsData.length;
+            document.getElementById('card-category-badge').textContent = card.category;
+            document.getElementById('card-question').textContent = `"${card.question}"`;
+            
+            // Back status
+            const statusBadge = document.getElementById('card-status-badge');
+            if (card.isFact) {
+                statusBadge.textContent = "FAKTA MEDIS";
+                statusBadge.className = "px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-emerald-500 text-white";
+            } else {
+                statusBadge.textContent = "MITOS SEMATA";
+                statusBadge.className = "px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-red-500 text-white";
+            }
+            
+            document.getElementById('card-explanation').textContent = card.explanation;
+
+            // Bookmark icon state update
+            const bookmarks = getSavedBookmarks();
+            const bookmarkIcon = document.getElementById('bookmark-icon');
+            if (bookmarks.some(b => b.id === card.id)) {
+                bookmarkIcon.className = "fa-solid fa-bookmark text-xl text-pink-500";
+            } else {
+                bookmarkIcon.className = "fa-regular fa-bookmark text-xl text-gray-400";
+            }
+        }
+
+        function toggleCardFlip() {
+            const cardInner = document.getElementById('card-inner');
+            cardInner.classList.toggle('card-flipped');
+            isCardFlipped = !isCardFlipped;
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcardsData.length;
+            renderCard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + flashcardsData.length) % flashcardsData.length;
+            renderCard();
+        }
+
+        function toggleBookmarkCurrentCard() {
+            const card = flashcardsData[currentCardIndex];
+            let bookmarks = getSavedBookmarks();
+            const existingIdx = bookmarks.findIndex(b => b.id === card.id);
+
+            if (existingIdx > -1) {
+                bookmarks.splice(existingIdx, 1);
+            } else {
+                bookmarks.push(card);
+            }
+            saveBookmarks(bookmarks);
+            renderCard();
+            renderBookmarksList();
+        }
+
+        function updateBookmarkCountUI() {
+            const bookmarks = getSavedBookmarks();
+            const countEl = document.getElementById('bookmark-count');
+            if (countEl) countEl.textContent = bookmarks.length;
+        }
+
+        function renderBookmarksList() {
+            const bookmarks = getSavedBookmarks();
+            const listEl = document.getElementById('bookmarks-list');
+            if (!listEl) return;
+
+            if (bookmarks.length === 0) {
+                listEl.innerHTML = `
+                    <div class="text-center py-8 text-dark-blue/60 text-xs">
+                        <i class="fa-regular fa-bookmark text-3xl mb-2 block opacity-40"></i>
+                        Belum ada kartu yang disimpan ke favorit.<br>Klik ikon bookmark pada kartu saat belajar!
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = bookmarks.map(card => `
+                <div class="p-4 rounded-2xl bg-soft-bg border border-pastel-pink/50 flex justify-between items-start gap-4">
+                    <div>
+                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">${card.category}</span>
+                        <h4 class="font-bold text-dark-blue text-sm mt-1">${card.question}</h4>
+                        <p class="text-xs text-dark-blue/70 mt-1">${card.explanation}</p>
+                    </div>
+                    <button onclick="removeBookmark('${card.id}')" aria-label="Hapus dari Favorit" class="text-red-400 hover:text-red-600 p-1">
+                        <i class="fa-solid fa-[#ffffff] fa-trash text-sm"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeBookmark(id) {
+            let bookmarks = getSavedBookmarks();
+            bookmarks = bookmarks.filter(b => b.id !== id);
+            saveBookmarks(bookmarks);
+            renderCard();
+            renderBookmarksList();
+        }
+
+        function clearBookmarks() {
+            saveBookmarks([]);
+            renderCard();
+            renderBookmarksList();
+        }
+
+        /* -------------------------------------------------------------
+           QUIZ LOGIC
+        ------------------------------------------------------------- */
+        function renderQuiz() {
+            const q = quizData[currentQuizIndex];
+            document.getElementById('quiz-num').textContent = currentQuizIndex + 1;
+            document.getElementById('quiz-total').textContent = quizData.length;
+            document.getElementById('quiz-question-text').textContent = q.question;
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = q.options.map((opt, i) => `
+                <button type="button" onclick="selectQuizOption(${i})" id="quiz-opt-${i}" class="w-full p-3.5 rounded-2xl border text-left text-xs sm:text-sm font-medium transition-all border-slate-200 hover:border-pastel-pink flex items-center justify-between">
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300"></i>
+                </button>
+            `).join('');
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.className = "hidden p-4 rounded-xl text-xs font-semibold mb-4";
+            quizSelectedOption = null;
+
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.textContent = "Konfirmasi Jawaban";
+        }
+
+        function selectQuizOption(idx) {
+            quizSelectedOption = idx;
+            const q = quizData[currentQuizIndex];
+            q.options.forEach((_, i) => {
+                const btn = document.getElementById(`quiz-opt-${i}`);
+                if (i === idx) {
+                    btn.className = "w-full p-3.5 rounded-2xl border text-left text-xs sm:text-sm font-semibold transition-all border-dark-blue bg-pastel-pink/30 text-dark-blue flex items-center justify-between shadow-sm";
+                } else {
+                    btn.className = "w-full p-3.5 rounded-2xl border text-left text-xs sm:text-sm font-medium transition-all border-slate-200 opacity-60 flex items-center justify-between";
+                }
+            });
+        }
+
+        function submitQuizAnswer() {
+            if (quizSelectedOption === null) {
+                alert("Silakan pilih salah satu opsi jawaban terlebih dahulu!");
+                return;
+            }
+
+            const q = quizData[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (quizSelectedOption === q.correct) {
+                feedback.className = "p-4 rounded-xl text-xs font-semibold mb-4 bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerHTML = `<i class="fa-solid fa-[#ffffff] fa-circle-check mr-1 text-base"></i> <strong>Jawaban Tepat!</strong> ${q.explanation}`;
+                quizScore += 100;
+            } else {
+                feedback.className = "p-4 rounded-xl text-xs font-semibold mb-4 bg-rose-100 text-rose-800 border border-rose-300";
+                feedback.innerHTML = `<i class="fa-solid fa-[#ffffff] fa-circle-xmark mr-1 text-base"></i> <strong>Kurang Tepat.</strong> ${q.explanation}`;
+            }
+
+            if (currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                setTimeout(() => {
+                    renderQuiz();
+                }, 2200);
+            } else {
+                // Finish Quiz
+                const currentSaved = getSavedQuizScore();
+                if (quizScore > currentSaved) {
+                    saveQuizScore(quizScore);
+                }
+                setTimeout(() => {
+                    alert(`Selamat! Anda telah menyelesaikan Mini Quiz Kehamilan dengan total skor: ${quizScore} poin.`);
+                    currentQuizIndex = 0;
+                    quizScore = 0;
+                    renderQuiz();
+                }, 2500);
+            }
+        }
+
+        /* -------------------------------------------------------------
+           TAB SWITCHER & MODAL LOGIC
+        ------------------------------------------------------------- */
+        function switchAppTab(tabName) {
+            const tabs = ['flashcards', 'quiz', 'bookmarks'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const content = document.getElementById(`tab-content-${t}`);
+                if (t === tabName) {
+                    btn.className = "px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all bg-dark-blue text-white shadow";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-dark-blue hover:bg-pastel-pink/30";
+                    content.classList.add('hidden');
+                }
+            });
+
+            if (tabName === 'bookmarks') {
+                renderBookmarksList();
+            }
+        }
+
+        function playCardQRModal() {
+            document.getElementById('video-modal').classList.remove('hidden');
+        }
+
+        function closeVideoModal() {
+            document.getElementById('video-modal').classList.add('hidden');
+        }
+
+        /* -------------------------------------------------------------
+           INTERSECTION OBSERVER & INITIALIZATION
+        ------------------------------------------------------------- */
+        window.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu drawer
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+
+            // Intersection Observer Reveal Animation
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Initial App Renders
+            renderCard();
+            renderQuiz();
+            updateBookmarkCountUI();
+            document.getElementById('high-score-display').textContent = getSavedQuizScore() + " Poin";
+        });
+    </script>
+</body>
+</html>
